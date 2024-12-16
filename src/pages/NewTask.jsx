@@ -1,69 +1,70 @@
-import React,{useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import'../styles/NewT.css'
 
 
 const NewTask = () => {
-    const[item,setItem]=useState('');
-    const[isEditing,setIsEditing]= useState(false)
+  const [tasks, setTasks]= useState([])
+  const[isLoading, setisLoading] = useState(true)
+  const [error, setError] = useState(null)
 
-    const handleEdit=()=>{
-        setIsEditing(!isEditing)
+  useEffect(()=>{
+    const fetchTasks = async()=>{
+      try{
+        const response = await fetch ('https://regback.onrender.com/api/task/get')
+        if(!response.ok){
+          throw new Error('Failed to fetch tasks')
+        }
 
-    }
-    const handleDelete=()=>{
-        setItem('')
-        setIsEditing(false)
+        const data= await response.json()
+        // update tasks state 
+        setTasks(data.tasks)
 
+
+      }catch(error){
+        setError(error.message)
+
+      } finally{
+        setisLoading(false)
+
+      }
     }
-    const handleChange = (e)=>{
-        setItem(e.target.value)
-    }
+
+    fetchTasks()
+// empty dependency array means this runs once when the component mounts 
+  },[])
+
+  if(isLoading) return <div>Loading...</div>
+  if(error) return <div> Error:{error}</div>
+
+
+
+
+
+
+
+   
+  
   return (
     <div>
-      <div>
-        <div>
-            <input className='box' readOnly type="text" placeholder='urgent' value={item} onChange={(e)=>setItem(e.target.value)} />
-            <button onClick={handleEdit} className='edit'>Edit</button>
-            <button onClick={handleDelete} className='delete'>Delete</button>
-            <div>FINTEC WEBSITE UPDATE</div>
-            <br /> Lorem ipsum, dolor sit amet consectetur adipisicing elit. Consequatur voluptatibus repellat alias 
-            possimus eius numquam similique accusamus beatae aut qui!
-        </div>
-      </div>
+      {tasks.map((task)=>(
+        <div key={task._id} className='task-item'> 
+        <input className='box' readOnly value={task.tags}/>
+        <button className='edit'>Edit</button>
+        <button className='delete'>Delete</button>
 
-      <div>
-        <div>
-            <input className='box' readOnly type="text" value={item} onChange={(e)=>setItem(e.target.value)} />
-            <button onClick={handleEdit} className='edit'>Edit</button>
-            <button onClick={handleDelete} className='delete'>Delete</button>
-            <div>FINTEC WEBSITE UPDATE</div>
-            <br /> Lorem ipsum, dolor sit amet consectetur adipisicing elit. Consequatur voluptatibus repellat alias 
-            possimus eius numquam similique accusamus beatae aut qui!
-        </div>
-      </div>
+        <p>{task.description}</p>
+       
+       
 
-      <div>
-        <div>
-            <input className='box' readOnly type="text" value={item} onChange={(e)=>setItem(e.target.value)} />
-            <button onClick={handleEdit} className='edit'>Edit</button>
-            <button onClick={handleDelete} className='delete'>Delete</button>
-             <div>FINTEC WEBSITE UPDATE </div>
-            <br /> Lorem ipsum, dolor sit amet consectetur adipisicing elit. Consequatur voluptatibus repellat alias 
-            possimus eius numquam similique accusamus beatae aut qui!
         </div>
-      </div>
 
-      <div>
-        <div>
-            <input className='box' readOnly type="text" value={item} onChange={(e)=>setItem(e.target.value)} />
-            <button onClick={handleEdit} className='edit'>Edit</button>
-            <button onClick={handleDelete} className='delete'>Delete</button>
-            </div>FINTEC WEBSITE UPDATE <div>
-            <br /> Lorem ipsum, dolor sit amet consectetur adipisicing elit. Consequatur voluptatibus repellat alias 
-            possimus eius numquam similique accusamus beatae aut qui!
-        
-        </div>
-      </div>
+      ))}
+      
+
+      
+
+     
+
     </div>
   )
 }

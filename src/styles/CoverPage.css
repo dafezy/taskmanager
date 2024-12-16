@@ -1,0 +1,18 @@
+.body{
+    margin: 50px;
+}
+.blue{
+    color: blueviolet;
+}
+.body{
+    width: 1000px;
+    display: flex;
+}
+.bluer{
+    background-color: blueviolet;
+}
+.image{
+   /* margin-left: 600px; */
+   margin-bottom:70px;
+   padding:0px;
+}

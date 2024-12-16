@@ -1,23 +1,39 @@
 import logo from './logo.svg';
 import './App.css';
+import CoverPage from './pages/CoverPage';
+import NavBar from './layout/NavBar';
+import NewTask from './pages/NewTask';
+import NewT from './layout/NewT';
+import { BrowserRouter,Route,Routes } from 'react-router-dom';
+import MyTask from './pages/MyTask';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <BrowserRouter>
+       <NavBar/>
+       <Routes>
+        <Route path='/MyTask' element={<MyTask/>}/>
+        <Route path='/NewTask' element={<NewTask/>}/>
+        <Route path='/CoverPage' element={<CoverPage/>}/>
+        <Route index element={ <CoverPage/>}/>
+{/* 
+      <CoverPage/>
+      <NewTask/>
+      <NewT/> */}
+      </Routes>
+      </BrowserRouter>
+      {/* <BrowserRouter>
+      <NavBar cart={cart}/>
+      <Routes>
+        <Route  index element= {<Home cart={cart} handleAddToCart={handleAddToCart} setCart={setCart}/>}/>
+        <Route path='/SingleProduct/:id'  element={<SingleProduct />}/>
+
+        <Route path='/Cart' element={<Cart cart={cart} handleAddToCart={handleAddToCart} setCart={setCart}/>}/>
+      
+      </Routes>
+      </BrowserRouter> */}
+     
     </div>
   );
 }

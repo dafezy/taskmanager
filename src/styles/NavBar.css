@@ -1,0 +1,18 @@
+.nav{
+    width: 1440px;
+    height: 93px;
+    border: 0.5px solid #B8B6B6;
+    display: flex;
+    justify-items: right;
+    gap: 850px;
+    
+}
+.navF{
+    margin-right: 100px;
+    display: flex;
+    gap: 100px;
+}
+.right{
+    display: flex;
+    text-align: right;
+}

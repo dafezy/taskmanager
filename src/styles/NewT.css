@@ -1,0 +1,11 @@
+.box{
+    width: 80%;
+    padding: 30px;
+}
+.edit{
+    background-color: blueviolet;
+}
+.delete{
+    border-color: blueviolet;
+    border-radius: 0cm;
+}

@@ -1,69 +1,87 @@
-import React,{useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import'../styles/NewT.css'
+import{Link} from "react-router-dom"
 
 
 const NewTask = () => {
-    const[item,setItem]=useState('');
-    const[isEditing,setIsEditing]= useState(false)
+  const [tasks, setTasks]= useState([])
+  const[isLoading, setisLoading] = useState(true)
+  const [error, setError] = useState(null)
 
-    const handleEdit=()=>{
-        setIsEditing(!isEditing)
+  useEffect(()=>{
+    const fetchTasks = async()=>{
+      try{
+        const response = await fetch ('https://regback.onrender.com/api/task/get')
+        if(!response.ok){
+          throw new Error('Failed to fetch tasks')
+        }
 
-    }
-    const handleDelete=()=>{
-        setItem('')
-        setIsEditing(false)
+        const data= await response.json()
+        // update tasks state 
+        setTasks(data.tasks)
 
+
+      }catch(error){
+        setError(error.message)
+
+      } finally{
+        setisLoading(false)
+
+      }
     }
-    const handleChange = (e)=>{
-        setItem(e.target.value)
-    }
+
+
+
+    fetchTasks()
+// empty dependency array means this runs once when the component mounts 
+  },[])
+
+
+  const handleDelete = async (id)=>{
+    try{
+    const response = await fetch(`https://regback.onrender.com/api/task/deleteTask/${id}`,{
+        method: 'DELETE'
+})
+if(!response.ok){
+    throw new Error('failed to delete task')
+}
+setTasks((prevTasks)=>prevTasks.filter((task)=>task._id !== id))
+alert('Task deleted successfully')
+
+}catch(err){
+    alert('failed to delete task')
+}
+}
+
+  if(isLoading) return <div>Loading...</div>
+  if(error) return <div> Error:{error}</div>
+
+   
+  
   return (
     <div>
-      <div>
-        <div>
-            <input className='box' readOnly type="text" placeholder='urgent' value={item} onChange={(e)=>setItem(e.target.value)} />
-            <button onClick={handleEdit} className='edit'>Edit</button>
-            <button onClick={handleDelete} className='delete'>Delete</button>
-            <div>FINTEC WEBSITE UPDATE</div>
-            <br /> Lorem ipsum, dolor sit amet consectetur adipisicing elit. Consequatur voluptatibus repellat alias 
-            possimus eius numquam similique accusamus beatae aut qui!
-        </div>
-      </div>
+      {tasks.map((task)=>(
+        <div key={task._id} className='task-item'> 
+        <input className='box' readOnly value={task.tags}/>
 
-      <div>
-        <div>
-            <input className='box' readOnly type="text" value={item} onChange={(e)=>setItem(e.target.value)} />
-            <button onClick={handleEdit} className='edit'>Edit</button>
-            <button onClick={handleDelete} className='delete'>Delete</button>
-            <div>FINTEC WEBSITE UPDATE</div>
-            <br /> Lorem ipsum, dolor sit amet consectetur adipisicing elit. Consequatur voluptatibus repellat alias 
-            possimus eius numquam similique accusamus beatae aut qui!
-        </div>
-      </div>
+        <Link to="/EditTask"><button className='edit'>Edit</button></Link>
+        <button className='delete' onClick={()=>handleDelete(task._id)}>Delete</button>
+        <p>{task.taskTitle}</p>
 
-      <div>
-        <div>
-            <input className='box' readOnly type="text" value={item} onChange={(e)=>setItem(e.target.value)} />
-            <button onClick={handleEdit} className='edit'>Edit</button>
-            <button onClick={handleDelete} className='delete'>Delete</button>
-             <div>FINTEC WEBSITE UPDATE </div>
-            <br /> Lorem ipsum, dolor sit amet consectetur adipisicing elit. Consequatur voluptatibus repellat alias 
-            possimus eius numquam similique accusamus beatae aut qui!
-        </div>
-      </div>
+        <p>{task.description}</p>
 
-      <div>
-        <div>
-            <input className='box' readOnly type="text" value={item} onChange={(e)=>setItem(e.target.value)} />
-            <button onClick={handleEdit} className='edit'>Edit</button>
-            <button onClick={handleDelete} className='delete'>Delete</button>
-            </div>FINTEC WEBSITE UPDATE <div>
-            <br /> Lorem ipsum, dolor sit amet consectetur adipisicing elit. Consequatur voluptatibus repellat alias 
-            possimus eius numquam similique accusamus beatae aut qui!
-        
+       
+       
+
         </div>
-      </div>
+
+      ))}
+      
+
+      
+
+     
+
     </div>
   )
 }

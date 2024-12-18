@@ -1,13 +1,12 @@
-import React, {useState} from 'react'
-import'../styles/MyTask.css'
+import React,{useState} from 'react'
 
-const MyTask = () => {
+const EditTask = () => {
     const [title, setTitle]= useState('')
     const [description, setDescription]= useState('')
     const [tag, setTag]= useState('')
   return (
-    <div >
-      <div className='tit'>
+    <div>
+        <div className='tit'>
         <input className='input' type="text" placeholder='Title' value={title} onChange={(e)=>setTitle(e.target.value)} />
       </div>
 
@@ -21,8 +20,9 @@ const MyTask = () => {
       <div>
         <button className='done'>DONE</button>
       </div>
+      
     </div>
   )
 }
 
-export default MyTask
+export default EditTask

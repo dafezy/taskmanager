@@ -6,6 +6,7 @@ import NewTask from './pages/NewTask';
 import NewT from './layout/NewT';
 import { BrowserRouter,Route,Routes } from 'react-router-dom';
 import MyTask from './pages/MyTask';
+import EditTask from './pages/EditTask';
 
 function App() {
   return (
@@ -17,6 +18,8 @@ function App() {
         <Route path='/NewTask' element={<NewTask/>}/>
         <Route path='/CoverPage' element={<CoverPage/>}/>
         <Route index element={ <CoverPage/>}/>
+        <Route path='/EditTask' element={<EditTask/>}/>
+        
 {/* 
       <CoverPage/>
       <NewTask/>

@@ -33,16 +33,33 @@ const NewTask = () => {
 // empty dependency array means this runs once when the component mounts 
   },[])
 
+
+  const handleDelete  = async(id)=> {
+    try{
+    const response = await fetch(`https://regback.onrender.com/api/task/deleteTask/${id}`,{
+      method: 'DELETE',
+    })
+
+    if(!response.ok){
+      throw new Error('failed to delete task')
+    }
+
+    setTasks((prevTasks)=> prevTasks.filter((task)=> task._id !== id))
+    alert('Task deleted successfully')
+
+
+  }catch(err){
+    console.error(err)
+    alert('failed to delete task')
+
+  }
+
+  }
+
   if(isLoading) return <div>Loading...</div>
   if(error) return <div> Error:{error}</div>
 
 
-
-
-
-
-
-   
   
   return (
     <div>
@@ -50,7 +67,7 @@ const NewTask = () => {
         <div key={task._id} className='task-item'> 
         <input className='box' readOnly value={task.tags}/>
         <button className='edit'>Edit</button>
-        <button className='delete'>Delete</button>
+        <button className='delete'  onClick={()=> handleDelete  (task._id)}>Delete</button>
 
         <p>{task.description}</p>
        

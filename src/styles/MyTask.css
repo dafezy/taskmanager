@@ -4,3 +4,11 @@ width: 100%;
 font-size: 20px;
 padding: 70px;
 }
+.done{
+    background-color: blueviolet;
+    width: 200px;
+    display: flex;
+    align-items: center;
+    margin: 5rem;
+    gap: 10px;
+}

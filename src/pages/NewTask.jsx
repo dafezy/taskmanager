@@ -1,9 +1,10 @@
 import React,{useEffect, useState} from 'react'
 import'../styles/NewT.css'
-import{Link} from "react-router-dom"
+import{Link , useNavigate} from "react-router-dom"
 
 
 const NewTask = () => {
+  const navigate = useNavigate()
   const [tasks, setTasks]= useState([])
   const[isLoading, setisLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -70,7 +71,7 @@ const NewTask = () => {
         <div key={task._id} className='task-item'> 
         <input className='box' readOnly value={task.tags}/>
 
-        <Link to="/EditTask"><button className='edit'>Edit</button></Link>
+        <button className='edit' onClick={()=> navigate(`/EditTask/${task._id}`,{state:{task}})}>Edit</button>
         <button className='delete' onClick={()=>handleDelete(task._id)}>Delete</button>
         <p>{task.taskTitle}</p>
 

@@ -7,6 +7,8 @@ import NewT from './layout/NewT';
 import { BrowserRouter,Route,Routes } from 'react-router-dom';
 import MyTask from './pages/MyTask';
 import EditTask from './pages/EditTask';
+import Registration from './pages/Registration';
+import Login from './pages/Login';
 
 function App() {
   return (
@@ -18,7 +20,9 @@ function App() {
         <Route path='/NewTask' element={<NewTask/>}/>
         <Route path='/CoverPage' element={<CoverPage/>}/>
         <Route index element={ <CoverPage/>}/>
-        <Route path='/EditTask' element={<EditTask/>}/>
+        <Route path='/EditTask/:id' element={<EditTask/>}/>
+        <Route path='/Login' element={<Login/>}/>
+        <Route path='/Registration' element={<Registration/>}/>
         
 {/* 
       <CoverPage/>
